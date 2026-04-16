@@ -1,1 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>欢迎来到你的奶站</title>
+  
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body, html { height:100%; overflow:hidden; font-family: "Microsoft YaHei", "Arial", sans-serif; background:#f8f9fa; }
+    
+    .swiper { height:100vh; }
+    
+    /* ==================== 第一页样式 ==================== */
+    .page1 {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #f8f9fa;
+      overflow: hidden;
+    }
+    
+    /* 漂浮气泡 */
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(173, 216, 230, 0.85);
+      box-shadow: 
+        0 10px 20px rgba(0,0,0,0.1),
+        inset 15px 15px 20px rgba(255,255,255,0.6),
+        inset -10px -10px 15px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      animation: floatUp linear infinite;
+      cursor: grab;
+    }
+    .bubble:hover {
+      animation-play-state: paused;
+      transform: scale(1.12);
+    }
+    .bubble img {
+      width: 78%;
+      height: 78%;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+    }
+    
+    /* 上浮动画 */
+    @keyframes floatUp {
+      from { transform: translateY(100vh) rotate(0deg); }
+      to   { transform: translateY(-100vh) rotate(360deg); }
+    }
+    
+    /* 中央文字 + 小模型 */
+    .welcome {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .welcome-text {
+      font-size: 3.2rem;
+      font-weight: 900;
+      color: #f8b62d;
+      text-shadow: 
+        0 0 15px #fff,
+        3px 3px 0 #000,
+        -1px -1px 0 #000;
+      letter-spacing: 4px;
+      margin-bottom: 20px;
+    }
+    .small-model {
+      width: 160px;
+      height: 160px;
+      margin: 0 auto;
+    }
+    .small-model img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(10px 10px 15px rgba(0,0,0,0.2));
+    }
+  </style>
+</head>
+<body>
 
+  <div class="swiper" id="mainSwiper">
+    <div class="swiper-wrapper">
+
+      <!-- 第一页 -->
+      <div class="swiper-slide page1" id="page-1">
+        
+        <!-- 所有漂浮气泡会由JS动态生成 -->
+        
+        <!-- 中央欢迎文字 + 小模型 -->
+        <div class="welcome">
+          <div class="welcome-text">欢迎来到你的奶站</div>
+          <div class="small-model">
+            <img src="小7.png" alt="思考小黄">
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    // ==================== 气泡数据（你上传的所有图片） ====================
+    const images = [
+      "小1.png", "小2.png", "小3.png", "小4.png", "小5.png",
+      "小6.png", "小7.png", "小8.png", "小9.png", "小10.png",
+      "小11.png", "小12.png", "小13.png", "小14.png", "小15.png",
+      "小16.png", "小17.png", "小18.png"
+    ];
+
+    // 创建气泡
+    function createBubbles() {
+      const container = document.getElementById('page-1');
+      const bubbleCount = 18; // 可调整数量
+      
+      for (let i = 0; i < bubbleCount; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        
+        // 随机大小（60-140px）
+        const size = Math.random() * 80 + 60;
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        
+        // 随机水平位置
+        bubble.style.left = `${Math.random() * 100}vw`;
+        
+        // 随机动画时长（8-18秒）
+        const duration = Math.random() * 10 + 8;
+        bubble.style.animationDuration = `${duration}s`;
+        
+        // 随机延迟，让气泡错开
+        bubble.style.animationDelay = `-${Math.random() * 15}s`;
+        
+        // 随机轻微横向漂移
+        bubble.style.setProperty('--drift', `${(Math.random() - 0.5) * 60}px`);
+        
+        // 放入图片（循环使用所有图片）
+        const img = document.createElement('img');
+        img.src = images[i % images.length];
+        bubble.appendChild(img);
+        
+        container.appendChild(bubble);
+      }
+    }
+
+    // 初始化 Swiper + 气泡
+    document.addEventListener('DOMContentLoaded', () => {
+      createBubbles();
+      
+      new Swiper('#mainSwiper', {
+        direction: 'vertical',
+        loop: false,
+        pagination: { el: '.swiper-pagination', clickable: true },
+        keyboard: true,
+        mousewheel: true,
+        touchRatio: 1.2
+      });
+      
+      console.log('✅ 第一页（漂浮奶站）已加载完成！');
+    });
+  </script>
+</body>
+</html>
