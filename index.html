@@ -51,21 +51,21 @@
       to   { transform: translateY(-110vh); }
     }
     
-    /* 标题SVG容器 */
+    /* SVG标题 - 放大到红色框大小 */
     .welcome {
       position: absolute;
-      top: 50%;
+      top: 48%;
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 10;
       text-align: center;
-      max-width: 90%;
+      width: 90vw;           /* 横向占满90%屏幕宽度 */
+      max-width: 1250px;     /* 最大宽度（可根据实际SVG微调） */
     }
     .welcome img {
       width: 100%;
-      max-width: 920px;     /* 可根据实际SVG尺寸微调 */
       height: auto;
-      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.25));
+      filter: drop-shadow(0 15px 25px rgba(0,0,0,0.25));
     }
   </style>
 </head>
@@ -118,7 +118,6 @@
     document.addEventListener('DOMContentLoaded', () => {
       createBubbles();
       
-      // 使用你上传的SVG作为标题
       const welcomeHTML = `
         <div class="welcome">
           <img src="欢迎来到你的奶站.svg" alt="欢迎来到你的奶站">
@@ -135,7 +134,7 @@
         touchRatio: 1.2
       });
       
-      console.log('✅ 第一页标题已更新为SVG样式！');
+      console.log('✅ SVG标题已放大到红色框大小！');
     });
   </script>
 </body>
