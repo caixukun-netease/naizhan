@@ -9,7 +9,7 @@
   
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    body, html { height:100%; overflow:hidden; font-family: system-ui, -apple-system, sans-serif; }
+    body, html { height:100%; overflow:hidden; }
     
     .swiper { height:100vh; }
     
@@ -22,15 +22,15 @@
       overflow: hidden;
     }
     
-    /* 白色气泡 */
+    /* 纯白色气泡（彻底消除色差） */
     .bubble {
       position: absolute;
       border-radius: 50%;
-      background: rgba(255,255,255,0.95);
+      background: #ffffff;
       box-shadow: 
-        0 15px 25px rgba(0,0,0,0.12),
-        inset 20px 20px 25px rgba(255,255,255,0.8),
-        inset -15px -15px 20px rgba(0,0,0,0.1);
+        0 12px 20px rgba(0,0,0,0.15),
+        inset 18px 18px 22px rgba(255,255,255,0.9),
+        inset -12px -12px 18px rgba(0,0,0,0.08);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -47,51 +47,32 @@
       width: 82%;
       height: 82%;
       object-fit: contain;
-      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
+      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
     }
     
-    /* 上浮 + 轻微左右漂移 */
+    /* 上浮动画 */
     @keyframes floatUp {
-      from { 
-        transform: translateY(110vh) rotate(0deg); 
-      }
-      to { 
-        transform: translateY(-110vh) rotate(360deg); 
-      }
+      from { transform: translateY(110vh) rotate(0deg); }
+      to   { transform: translateY(-110vh) rotate(360deg); }
     }
     
-    /* 中央文字 + 思考小黄 */
+    /* 中央文字（微软雅黑 + 无描边） */
     .welcome {
       position: absolute;
-      top: 48%;
+      top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 10;
       text-align: center;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 30px;
     }
     .welcome-text {
-      font-size: 4.8rem;
+      font-size: 5.2rem;
       font-weight: 900;
       color: #ffeb3b;
-      text-shadow: 
-        0 0 20px #fff,
-        4px 4px 0 #333,
-        -2px -2px 0 #333,
-        6px 6px 8px rgba(0,0,0,0.3);
-      letter-spacing: 8px;
-      line-height: 1.1;
-      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.25));
-      font-family: "Comic Sans MS", cursive, system-ui;
-    }
-    .thinking-model {
-      width: 220px;
-      height: 220px;
-      margin-top: -40px; /* 让小黄微微“靠”在文字上 */
-      filter: drop-shadow(15px 15px 20px rgba(0,0,0,0.3));
+      text-shadow: 0 8px 15px rgba(0,0,0,0.25);   /* 只保留轻柔投影，无描边 */
+      letter-spacing: 12px;
+      line-height: 1.05;
+      font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
     }
   </style>
 </head>
@@ -115,28 +96,24 @@
 
     function createBubbles() {
       const container = document.getElementById('page-1');
-      const bubbleCount = 22; // 增加数量 + 更好分布
+      const bubbleCount = 22;
       
       for (let i = 0; i < bubbleCount; i++) {
         const bubble = document.createElement('div');
         bubble.className = 'bubble';
         
-        // 更大尺寸（参考你红圈 + 15%随机）
-        let baseSize = 170;
-        const size = baseSize + (Math.random() * 50 - 25); // ±15%左右
+        const baseSize = 175;
+        const size = baseSize + (Math.random() * 52 - 26);
         bubble.style.width = `${size}px`;
         bubble.style.height = `${size}px`;
         
-        // 更智能的水平分布（减少重叠）
-        const left = 5 + (i % 6) * 15 + Math.random() * 8;
+        const left = 4 + (i % 7) * 13 + Math.random() * 9;
         bubble.style.left = `${left}vw`;
         
-        // 随机动画时长 + 延迟
-        const duration = 9 + Math.random() * 12;
+        const duration = 9 + Math.random() * 13;
         bubble.style.animationDuration = `${duration}s`;
-        bubble.style.animationDelay = `-${Math.random() * 18}s`;
+        bubble.style.animationDelay = `-${Math.random() * 20}s`;
         
-        // 放入图片
         const img = document.createElement('img');
         img.src = images[i % images.length];
         bubble.appendChild(img);
@@ -145,17 +122,12 @@
       }
     }
 
-    // 初始化
     document.addEventListener('DOMContentLoaded', () => {
       createBubbles();
       
-      // 添加中央文字 + 思考小黄
       const welcomeHTML = `
         <div class="welcome">
           <div class="welcome-text">欢迎来到你的奶站</div>
-          <div class="thinking-model">
-            <img src="小7.png" alt="思考小黄">
-          </div>
         </div>
       `;
       document.getElementById('page-1').insertAdjacentHTML('beforeend', welcomeHTML);
@@ -169,7 +141,7 @@
         touchRatio: 1.2
       });
       
-      console.log('✅ 第一页已优化完成！');
+      console.log('✅ 第一页已最终优化完成！');
     });
   </script>
 </body>
